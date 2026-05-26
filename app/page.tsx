@@ -1,8 +1,6 @@
 import { Button } from "@/components/ui/button";
 import {
   Show,
-  SignedIn,
-  SignedOut,
   SignInButton,
   SignUpButton,
 } from "@clerk/nextjs";
