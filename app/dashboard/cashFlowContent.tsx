@@ -46,7 +46,7 @@ export function CashflowContent({
             color: "#f97316",
           },
         }}
-        className="w-full h-[300px]"
+        className="w-full h-75"
       >
         <BarChart data={annualCashflow}>
           <CartesianGrid vertical={false} />

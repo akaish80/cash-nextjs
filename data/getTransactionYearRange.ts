@@ -1,4 +1,4 @@
-import { db } from "@/db";
+import { getDb } from "@/db";
 import { transactionsTable } from "@/db/schema";
 import { auth } from "@clerk/nextjs/server";
 import { asc, eq } from "drizzle-orm";
@@ -9,6 +9,8 @@ export async function getTransactionYearsRange() {
   if (!userId) {
     return [];
   }
+
+  const db = getDb();
 
   const [earliestTransaction] = await db
     .select()

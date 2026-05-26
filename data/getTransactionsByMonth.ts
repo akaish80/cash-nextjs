@@ -1,5 +1,5 @@
 import "server-only";
-import { db } from "@/db";
+import { getDb } from "@/db";
 import { categoriesTable, transactionsTable } from "@/db/schema";
 import { auth } from "@clerk/nextjs/server";
 import { and, desc, eq, gte, lte } from "drizzle-orm";
@@ -18,6 +18,8 @@ export async function getTransactionsByMonth({
   if (!userId) {
     return null;
   }
+
+  const db = getDb();
 
   const earliestDate = new Date(year, month - 1, 1);
   const latestDate = new Date(year, month, 0);

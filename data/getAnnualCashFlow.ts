@@ -1,4 +1,4 @@
-import { db } from "@/db";
+import { getDb } from "@/db";
 import { categoriesTable, transactionsTable } from "@/db/schema";
 import { auth } from "@clerk/nextjs/server";
 import { and, eq, sql, sum } from "drizzle-orm";
@@ -10,6 +10,8 @@ export async function getAnnualCashflow(year: number) {
   if (!userId) {
     return [];
   }
+
+  const db = getDb();
 
   const month = sql`EXTRACT(MONTH FROM ${transactionsTable.transactionDate})`;
 

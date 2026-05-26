@@ -1,6 +1,6 @@
 "use server";
 
-import { db } from "@/db";
+import { getDb } from "@/db";
 import { transactionsTable } from "@/db/schema";
 import { auth } from "@clerk/nextjs/server";
 import { addDays, subYears } from "date-fns";
@@ -35,6 +35,7 @@ export const createTransaction = async (data: {
   description: string;
   transactionDate: string;
 }) => {
+  const db = getDb();
   const { userId } = await auth();
   if (!userId) {
     return {
@@ -76,6 +77,7 @@ export async function updateTransaction(data: {
   amount: number;
   categoryId: number;
 }) {
+  const db = getDb();
   const { userId } = await auth();
 
   if (!userId) {
@@ -111,6 +113,7 @@ export async function updateTransaction(data: {
 }
 
 export async function deleteTransaction(transactionId: number) {
+  const db = getDb();
   const { userId } = await auth();
 
   if (!userId) {

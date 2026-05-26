@@ -1,4 +1,4 @@
-import { db } from "@/db";
+import { getDb } from "@/db";
 import { transactionsTable } from "@/db/schema";
 import { auth } from "@clerk/nextjs/server";
 import { and, eq } from "drizzle-orm";
@@ -10,6 +10,8 @@ export async function getTransaction(transactionId: number) {
   if (!userId) {
     return null;
   }
+
+  const db = getDb();
 
   const [transaction] = await db
     .select()

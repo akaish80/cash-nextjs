@@ -1,4 +1,4 @@
-import { db } from "@/db";
+import { getDb } from "@/db";
 import { categoriesTable, transactionsTable } from "@/db/schema";
 import { auth } from "@clerk/nextjs/server";
 import { desc, eq } from "drizzle-orm";
@@ -10,6 +10,8 @@ export async function getRecentTransactions() {
   if (!userId) {
     return [];
   }
+
+  const db = getDb();
 
   const transactions = await db
     .select({
