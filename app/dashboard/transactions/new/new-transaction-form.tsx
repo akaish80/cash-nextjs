@@ -5,6 +5,7 @@ import TransactionForm, {
   transactionFormSchema,
 } from "@/components/transaction-form";
 import { Category } from "@/types/Category";
+import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import z from "zod";
@@ -16,11 +17,12 @@ export default function NewTransactionForm({
 }) {
   const router = useRouter();
   const handleSubmit = async (data: z.infer<typeof transactionFormSchema>) => {
+    
     const result = await createTransaction({
       amount: data.amount,
       categoryId: data.categoryId,
       description: data.description,
-      transactionDate: data.transactionDate.toISOString(),
+      transactionDate: format(data.transactionDate, "yyyy-MM-dd"),
     });
 
     if (result.error) {

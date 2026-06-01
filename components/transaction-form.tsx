@@ -28,14 +28,12 @@ import { type Category } from "@/types/Category";
 
 type TransactionType = "income" | "expense";
 
-function getUtcToday() {
+function getLocalToday() {
   const now = new Date();
-  return new Date(
-    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()),
-  );
+  return new Date(now.getFullYear(), now.getMonth(), now.getDate());
 }
 
-const today = getUtcToday();
+const today = getLocalToday();
 
 export const transactionFormSchema = z.object({
   transactionType: z.enum(["income", "expense"]),
@@ -220,6 +218,7 @@ export default function TransactionForm({
                       <Calendar
                         mode="single"
                         selected={field.state.value}
+                         defaultMonth={field.state.value ?? today}
                         onSelect={(selectedDate) => {
                           if (selectedDate) {
                             field.handleChange(selectedDate);

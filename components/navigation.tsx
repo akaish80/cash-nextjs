@@ -1,8 +1,14 @@
+"use client";
+
 import { ChartColumnBigIcon } from "lucide-react";
 import Link from "next/link";
 import { Show, SignInButton, SignUpButton } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
-import UserDropdown from "@/app/user-dropdown";
+import dynamic from "next/dynamic";
+
+const UserDropdown = dynamic(() => import("@/app/user-dropdown"), {
+  ssr: false,
+});
 
 export const Navigation = () => {
   return (

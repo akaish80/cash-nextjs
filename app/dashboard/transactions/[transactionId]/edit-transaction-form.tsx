@@ -58,7 +58,7 @@ export default function EditTransactionForm({
         amount: Number(transaction.amount),
         categoryId: transaction.categoryId,
         description: transaction.description,
-        transactionDate: new Date(transaction.transactionDate),
+        transactionDate: new Date(transaction.transactionDate + "T00:00:00"),
         transactionType:
           categories.find((category) => category.id === transaction.categoryId)
             ?.type ?? "income",

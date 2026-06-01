@@ -93,7 +93,7 @@ export default async function TransactionsPage({
                   <TableRow key={transaction.id}>
                     <TableCell>
                       {format(
-                        new Date(transaction.transactionDate),
+                        new Date(transaction.transactionDate + "T00:00:00"),
                         "dd MMM yyyy",
                       )}
                     </TableCell>

@@ -53,7 +53,7 @@ export default async function RecentTransactions() {
               {transactions.map((transaction) => (
                 <TableRow key={transaction.id}>
                   <TableCell>
-                    {format(transaction.transactionDate, "do MMM yyyy")}
+                    {format(new Date(transaction.transactionDate + "T00:00:00"), "do MMM yyyy")}
                   </TableCell>
                   <TableCell>{transaction.description}</TableCell>
                   <TableCell className="capitalize">

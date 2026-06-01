@@ -38,6 +38,10 @@ export async function getAnnualCashflow(year: number) {
     )
     .groupBy(month);
 
+  const monthlyCashflowByMonth = new Map(
+    cashflow.map((cf) => [Number(cf.month), cf])
+  );
+
   const annualCashflow: {
     month: number;
     income: number;
@@ -45,7 +49,7 @@ export async function getAnnualCashflow(year: number) {
   }[] = [];
 
   for (let i = 1; i <= 12; i++) {
-    const monthlyCashflow = cashflow.find((cf) => Number(cf.month) === i);
+    const monthlyCashflow = monthlyCashflowByMonth.get(i);
     annualCashflow.push({
       month: i,
       income: Number(monthlyCashflow?.totalIncome ?? 0),
