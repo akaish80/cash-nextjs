@@ -91,7 +91,7 @@ export function CashflowContent({
           <Bar dataKey="expenses" radius={4} fill="var(--color-expenses)" />
         </BarChart>
       </ChartContainer>
-      <div className="border-l px-4 flex flex-col gap-4 justify-center">
+        <div className="border-t pt-4 mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
           <span className="text-muted-foreground font-bold text-sm">
             Income
@@ -100,7 +100,6 @@ export function CashflowContent({
             ${numeral(totalAnnualIncome).format("0,0[.]00")}
           </h2>
         </div>
-        <div className="border-t" />
         <div>
           <span className="text-muted-foreground font-bold text-sm">
             Expenses
@@ -109,7 +108,6 @@ export function CashflowContent({
             ${numeral(totalAnnualExpenses).format("0,0[.]00")}
           </h2>
         </div>
-        <div className="border-t" />
         <div>
           <span className="text-muted-foreground font-bold text-sm">
             Balance

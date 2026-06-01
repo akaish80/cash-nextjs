@@ -20,7 +20,7 @@ export default async function Cashflow({ year }: { year: number }) {
           <CashflowFilters year={year} yearsRange={yearsRange} />
         </CardTitle>
       </CardHeader>
-      <CardContent className="grid grid-cols-[1fr_250px]">
+      <CardContent>
         <CashflowContent annualCashflow={cashflow} />
       </CardContent>
     </Card>

@@ -23,8 +23,10 @@ export default async function DashboardPage({
   return (
     <div className="max-w-7xl mx-auto py-5">
       <h1 className="text-4xl font-semibold pb-5">Dashboard</h1>
-      <Cashflow year={cfYear} />
-      <CategoryBreakdown year={cfYear} month={cbMonth} />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <Cashflow year={cfYear} />
+        <CategoryBreakdown year={cfYear} month={cbMonth} />
+      </div>
       <RecentTransactions />
     </div>
   );

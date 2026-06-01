@@ -249,9 +249,11 @@ export default function TransactionForm({
                     type="number"
                     min="0"
                     step="0.01"
-                    value={field.state.value}
+                    value={field.state.value === 0 ? "" : field.state.value}
                     onChange={(e) => {
-                      field.handleChange(Number(e.target.value));
+                      field.handleChange(
+                        e.target.value === "" ? 0 : Number(e.target.value),
+                      );
                     }}
                   />
                 </FormControl>

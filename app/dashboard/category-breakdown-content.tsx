@@ -5,7 +5,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { Cell, Legend, Pie, PieChart } from "recharts";
+import { Legend, Pie, PieChart } from "recharts";
 
 type CategoryRow = {
   category: string;
@@ -51,9 +51,19 @@ function buildConfig(rows: CategoryRow[]) {
 }
 
 export function CategoryBreakdownContent({ data }: { data: CategoryRow[] }) {
-  const incomeData = data.filter((r) => r.type === "income");
-  const expenseData = data.filter((r) => r.type === "expense");
   const config = buildConfig(data);
+  const incomeData = data
+    .filter((r) => r.type === "income")
+    .map((entry) => ({
+      ...entry,
+      fill: config[entry.category]?.color,
+    }));
+  const expenseData = data
+    .filter((r) => r.type === "expense")
+    .map((entry) => ({
+      ...entry,
+      fill: config[entry.category]?.color,
+    }));
 
   if (data.length === 0) {
     return (
@@ -85,19 +95,12 @@ export function CategoryBreakdownContent({ data }: { data: CategoryRow[] }) {
               data={incomeData}
               dataKey="total"
               nameKey="category"
-              cx="50%"
+              cx="38%"
               cy="50%"
               innerRadius={50}
               outerRadius={100}
               label={false}
-            >
-              {incomeData.map((entry) => (
-                <Cell
-                  key={`income-${entry.category}`}
-                  fill={config[entry.category]?.color}
-                />
-              ))}
-            </Pie>
+            />
           )}
 
           {/* Outer ring: expenses */}
@@ -106,29 +109,25 @@ export function CategoryBreakdownContent({ data }: { data: CategoryRow[] }) {
               data={expenseData}
               dataKey="total"
               nameKey="category"
-              cx="50%"
+              cx="38%"
               cy="50%"
               innerRadius={110}
               outerRadius={160}
               label={false}
-            >
-              {expenseData.map((entry) => (
-                <Cell
-                  key={`expense-${entry.category}`}
-                  fill={config[entry.category]?.color}
-                />
-              ))}
-            </Pie>
+            />
           )}
 
           <ChartTooltip
             content={
               <ChartTooltipContent
-                formatter={(value, name) => [formatAmount(value), name]}
+                formatter={(value, name) => `${formatAmount(value)} ${name}`}
               />
             }
           />
           <Legend
+            layout="vertical"
+            align="right"
+            verticalAlign="middle"
             iconType="circle"
             formatter={(value) => (
               <span className="text-primary text-xs">{value}</span>
