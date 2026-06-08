@@ -6,10 +6,11 @@ import { cn } from "@/lib/utils"
 import { Label } from "@/components/ui/label"
 
 function Form({
-  form: _form,
+  form,
   className,
   ...props
 }: React.ComponentProps<"form"> & { form?: unknown }) {
+  void form
   return <form className={cn("space-y-4", className)} {...props} />
 }
 

@@ -18,11 +18,10 @@ const MONTHS = Array.from({ length: 12 }, (_, i) => ({
 const MONTH_LABELS = Object.fromEntries(MONTHS.map((month) => [month.value, month.label]));
 
 type Props = {
-  year: number;
   month?: number;
 };
 
-export default function CategoryBreakdownFilters({ year, month }: Props) {
+export default function CategoryBreakdownFilters({ month }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
 

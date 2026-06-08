@@ -1,27 +1,31 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-// import { getAnnualCashflow } from "@/data/getAnnualCashflow";
 import CashflowFilters from "./cashflow-filters";
-// import { getTransactionYearsRange } from "@/data/getTransactionYearsRange";
 import { CashflowContent } from "./cashFlowContent";
 import { getTransactionYearsRange } from "@/data/getTransactionYearRange";
 import { getAnnualCashflow } from "@/data/getAnnualCashFlow";
 
-export default async function Cashflow({ year }: { year: number }) {
-  const [cashflow, yearsRange] = await Promise.all([
-    getAnnualCashflow(year),
-    getTransactionYearsRange(),
-  ]);
+export default async function Cashflow({
+  year,
+  cashflow,
+  yearsRange,
+}: {
+  year: number;
+  cashflow?: { month: number; income: number; expenses: number }[];
+  yearsRange?: number[];
+}) {
+  const annualCashflow = cashflow ?? (await getAnnualCashflow(year));
+  const availableYearsRange = yearsRange ?? (await getTransactionYearsRange());
 
   return (
     <Card className="mb-5">
       <CardHeader>
         <CardTitle className="flex justify-between">
           <span>Cashflow</span>
-          <CashflowFilters year={year} yearsRange={yearsRange} />
+          <CashflowFilters year={year} yearsRange={availableYearsRange} />
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <CashflowContent annualCashflow={cashflow} />
+        <CashflowContent annualCashflow={annualCashflow} />
       </CardContent>
     </Card>
   );

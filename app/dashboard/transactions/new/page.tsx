@@ -1,5 +1,4 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import TransactionForm from "@/components/transaction-form";
 import { getCategories } from "@/data/getCategories";
 import NewTransactionForm from "./new-transaction-form";
 import BreadCrumbComp from "@/components/bread-crumb-comp";

@@ -2,6 +2,7 @@ import Cashflow from "./cashFlow";
 import CategoryBreakdown from "./category-breakdown";
 import RecentTransactions from "./recent-transactions";
 import SpendingByDescription from "./spending-by-description";
+import { getDashboardData } from "@/data/getDashboardData";
 
 export default async function DashboardPage({
   searchParams,
@@ -33,19 +34,37 @@ export default async function DashboardPage({
     cfYear = today.getFullYear();
   }
 
+  const dashboardData = await getDashboardData({
+    year: cfYear,
+    categoryBreakdownMonth: cbMonth,
+    spendingCategoryId: sbCategory,
+    spendingMonth: sbMonth,
+  });
+
   return (
     <div className="max-w-7xl mx-auto py-5">
       <h1 className="text-4xl font-semibold pb-5">Dashboard</h1>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        <Cashflow year={cfYear} />
-        <CategoryBreakdown year={cfYear} month={cbMonth} />
+        <Cashflow
+          year={cfYear}
+          cashflow={dashboardData.annualCashflow}
+          yearsRange={dashboardData.yearsRange}
+        />
+        <CategoryBreakdown
+          year={cfYear}
+          month={cbMonth}
+          data={dashboardData.categoryBreakdown}
+        />
         <SpendingByDescription
           year={cfYear}
           categoryId={sbCategory}
           month={sbMonth}
+          data={dashboardData.spendingByDescription}
+          categories={dashboardData.categories}
+          categoryTotals={dashboardData.spendingTotalsByCategory}
         />
       </div>
-      <RecentTransactions />
+      <RecentTransactions transactions={dashboardData.recentTransactions} />
     </div>
   );
 }

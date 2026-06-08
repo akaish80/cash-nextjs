@@ -1,6 +1,6 @@
 "use client";
 
-import { createTransaction, updateTransaction } from "@/actions/transactionAction";
+import { updateTransaction } from "@/actions/transactionAction";
 import TransactionForm, {
   transactionFormSchema,
 } from "@/components/transaction-form";

@@ -14,8 +14,14 @@ import { format } from "date-fns";
 import Link from "next/link";
 import numeral from "numeral";
 
-export default async function RecentTransactions() {
-  const transactions = await getRecentTransactions();
+type RecentTransaction = Awaited<ReturnType<typeof getRecentTransactions>>[number];
+
+export default async function RecentTransactions({
+  transactions,
+}: {
+  transactions?: RecentTransaction[];
+}) {
+  const recentTransactions = transactions ?? (await getRecentTransactions());
   return (
     <Card>
       <CardHeader>
@@ -32,13 +38,13 @@ export default async function RecentTransactions() {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        {!transactions?.length && (
+        {!recentTransactions?.length && (
           <p className="text-center py-10 text-lg text-muted-foreground">
             You have no transactions yet. Start by hitting &quot;Create
             New&quot; to create your first transaction
           </p>
         )}
-        {!!transactions?.length && (
+        {!!recentTransactions?.length && (
           <Table className="mt-4">
             <TableHeader>
               <TableRow>
@@ -50,7 +56,7 @@ export default async function RecentTransactions() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {transactions.map((transaction) => (
+              {recentTransactions.map((transaction) => (
                 <TableRow key={transaction.id}>
                   <TableCell>
                     {format(new Date(transaction.transactionDate + "T00:00:00"), "do MMM yyyy")}

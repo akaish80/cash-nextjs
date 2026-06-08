@@ -14,6 +14,11 @@ type SpendingRow = {
   total: number;
 };
 
+type CategoryTotalRow = {
+  category: string;
+  total: number;
+};
+
 const CATEGORY_COLORS = [
   "#f97316",
   "#ef4444",
@@ -45,7 +50,13 @@ function buildConfig(rows: SpendingRow[]) {
   return config;
 }
 
-export function SpendingByDescriptionContent({ data }: { data: SpendingRow[] }) {
+export function SpendingByDescriptionContent({
+  data,
+  categoryTotals,
+}: {
+  data: SpendingRow[];
+  categoryTotals: CategoryTotalRow[];
+}) {
   if (data.length === 0) {
     return (
       <p className="text-muted-foreground text-sm py-6 text-center">
@@ -65,40 +76,59 @@ export function SpendingByDescriptionContent({ data }: { data: SpendingRow[] }) 
   }));
 
   return (
-    <ChartContainer config={config} className="h-90 w-full">
-      <BarChart data={chartData} layout="vertical" margin={{ right: 20 }}>
-        <CartesianGrid horizontal={false} />
-        <XAxis
-          type="number"
-          tickFormatter={(value) => `$${numeral(value).format("0,0")}`}
-        />
-        <YAxis type="category" dataKey="label" width={160} />
-        <ChartTooltip
-          content={
-            <ChartTooltipContent
-              hideLabel
-              formatter={(value, _name, item) => {
-                const row = item.payload as SpendingRow;
-                return (
-                  <div className="flex w-full items-center justify-between gap-3">
-                    <span className="text-muted-foreground">
-                      {row.category}: {row.description}
-                    </span>
-                    <span className="font-medium">
-                      ${numeral(Number(value)).format("0,0[.]00")}
-                    </span>
-                  </div>
-                );
-              }}
-            />
-          }
-        />
-        <Bar dataKey="total" radius={4}>
-          {chartData.map((entry) => (
-            <Cell key={`${entry.category}-${entry.description}`} fill={entry.fill} />
+    <div className="space-y-5">
+      <div>
+        <h3 className="text-sm font-semibold pb-2">Total Expense Per Category</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+          {categoryTotals.map((categoryTotal) => (
+            <div
+              key={categoryTotal.category}
+              className="rounded-md border p-3 flex items-center justify-between"
+            >
+              <span className="text-sm text-muted-foreground">{categoryTotal.category}</span>
+              <span className="font-semibold">
+                ${numeral(categoryTotal.total).format("0,0[.]00")}
+              </span>
+            </div>
           ))}
-        </Bar>
-      </BarChart>
-    </ChartContainer>
+        </div>
+      </div>
+
+      <ChartContainer config={config} className="h-90 w-full">
+        <BarChart data={chartData} layout="vertical" margin={{ right: 20 }}>
+          <CartesianGrid horizontal={false} />
+          <XAxis
+            type="number"
+            tickFormatter={(value) => `$${numeral(value).format("0,0")}`}
+          />
+          <YAxis type="category" dataKey="label" width={160} />
+          <ChartTooltip
+            content={
+              <ChartTooltipContent
+                hideLabel
+                formatter={(value, _name, item) => {
+                  const row = item.payload as SpendingRow;
+                  return (
+                    <div className="flex w-full items-center justify-between gap-3">
+                      <span className="text-muted-foreground">
+                        {row.category}: {row.description}
+                      </span>
+                      <span className="font-medium">
+                        ${numeral(Number(value)).format("0,0[.]00")}
+                      </span>
+                    </div>
+                  );
+                }}
+              />
+            }
+          />
+          <Bar dataKey="total" radius={4}>
+            {chartData.map((entry) => (
+              <Cell key={`${entry.category}-${entry.description}`} fill={entry.fill} />
+            ))}
+          </Bar>
+        </BarChart>
+      </ChartContainer>
+    </div>
   );
 }

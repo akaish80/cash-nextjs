@@ -48,13 +48,6 @@ export const transactionFormSchema = z.object({
     .max(300, "Description must contain at maximum of 300 characters"),
 });
 
-const defaultValues: z.infer<typeof transactionFormSchema> = {
-  transactionType: "income",
-  categoryId: 0,
-  transactionDate: today,
-  amount: 0,
-  description: "",
-};
 
 type Props = {
   categories: Category[];

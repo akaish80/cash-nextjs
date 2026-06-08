@@ -7,11 +7,13 @@ import CategoryBreakdownFilters from "./category-breakdown-filters";
 export default async function CategoryBreakdown({
   year,
   month,
+  data,
 }: {
   year: number;
   month?: number;
+  data?: { category: string; type: "income" | "expense"; total: number }[];
 }) {
-  const data = await getTransactionsByCategory(year, month);
+  const categoryData = data ?? (await getTransactionsByCategory(year, month));
   const title = month
     ? `${new Date(year, month - 1, 1).toLocaleString("default", { month: "long" })} ${year} — by Category`
     : `${year} — by Category`;
@@ -21,11 +23,11 @@ export default async function CategoryBreakdown({
       <CardHeader>
         <CardTitle className="flex justify-between">
           <span>Transactions {title}</span>
-          <CategoryBreakdownFilters year={year} month={month} />
+          <CategoryBreakdownFilters month={month} />
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <CategoryBreakdownContent data={data} />
+        <CategoryBreakdownContent data={categoryData} />
       </CardContent>
     </Card>
   );

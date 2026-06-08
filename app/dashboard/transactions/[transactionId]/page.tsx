@@ -1,4 +1,3 @@
-import BreadCrumbComp from "@/components/bread-crumb-comp";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getCategories } from "@/data/getCategories";
 import EditTransactionForm from "./edit-transaction-form";
