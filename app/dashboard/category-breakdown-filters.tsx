@@ -15,6 +15,8 @@ const MONTHS = Array.from({ length: 12 }, (_, i) => ({
   label: format(new Date(2000, i, 1), "MMMM"),
 }));
 
+const MONTH_LABELS = Object.fromEntries(MONTHS.map((month) => [month.value, month.label]));
+
 type Props = {
   year: number;
   month?: number;
@@ -42,7 +44,15 @@ export default function CategoryBreakdownFilters({ year, month }: Props) {
       }}
     >
       <SelectTrigger className="w-36">
-        <SelectValue />
+        <SelectValue>
+          {(value) => {
+            if (!value || value === "all") {
+              return "All year";
+            }
+
+            return MONTH_LABELS[String(value)] ?? String(value);
+          }}
+        </SelectValue>
       </SelectTrigger>
       <SelectContent>
         <SelectItem value="all">All year</SelectItem>
